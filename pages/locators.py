@@ -9,4 +9,4 @@ class MainPageLocators:
 
 # локаторы страницы авторизации
 class LoginPageLocators:
-
+    pass
