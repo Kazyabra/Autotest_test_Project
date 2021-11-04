@@ -5,3 +5,7 @@ class BasePage:
 
     def open(self):
         self.browser.get(self.url)
+
+
+if __name__ == '__main__':
+    pass
