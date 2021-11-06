@@ -1,4 +1,5 @@
 # в файле локаторы
+
 from selenium.webdriver.common.by import By
 
 
@@ -18,8 +19,7 @@ class LoginPageLocators:
 
 # локаторы страницы product_page
 class ProductPageLocators:
-    PRODUCT_PAGE_LINK = 'http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-shellcoders-handbook_209/' \
-                        '?promo=newYear'
+    PRODUCT_PAGE_LINK = f'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
     PRODUCT_NAME = (By.CSS_SELECTOR, '.product_main>h1')
     PRODUCT_PRICE = (By.CSS_SELECTOR, '.product_main>p.price_color')
     BTN_ADD_TO_BASKET = (By.CSS_SELECTOR, '#add_to_basket_form > button')

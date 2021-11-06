@@ -5,10 +5,17 @@ import pytest
 from .pages.locators import ProductPageLocators
 from .pages.product_page import ProductPage
 
+# добавляем параметризацию 10 промоссылок
+promolink = [(lambda i: '?promo=offer'+str(i))(i) for i in range(0, 10)]
+# помечаем промо7, как xfail
+promolink[7] = pytest.param(promolink[7], marks=pytest.mark.xfail)
 
-def test_guest_can_add_product_to_basket(browser):
+
+@pytest.mark.parametrize('promo', promolink)  # параметризация
+def test_guest_can_add_product_to_basket(browser, promo):
+    ProductPageLocators.PROMO_URL = promo  # меняем обычный промо на новый
     # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
-    page = ProductPage(browser, ProductPageLocators.PRODUCT_PAGE_LINK)
+    page = ProductPage(browser, ProductPageLocators.PRODUCT_PAGE_LINK + promo)
     # открываем страницу
     page.open()
     # выполняем метод страницы - проверяем добавление в корзину
@@ -17,4 +24,3 @@ def test_guest_can_add_product_to_basket(browser):
 
 if __name__ == '__main__':
     pytest.main()
-# Ответ 27.258251974806797
