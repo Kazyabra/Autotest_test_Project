@@ -1,4 +1,5 @@
-from selenium.common.exceptions import NoSuchElementException
+import math
+from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException
 
 
 class BasePage:
@@ -13,7 +14,7 @@ class BasePage:
             self.browser.get(self.url)
             print(f'\nСсылка {self.url} открыта')
         except:
-            print(f'\nне смог открыть ссылку {self.url}')
+            print(f'\nНе смог открыть ссылку {self.url}')
             return False
         return True
 
@@ -31,12 +32,13 @@ class BasePage:
     def is_element_click(self, how, what):
         # проверка элемента на клик
         try:
-            self.is_element_present(how, what).click()
-            print(f'элемент {what} кликнут мышкой')
+            element = self.is_element_present(how, what)
+            element.click()
+            print(f'Элемент {what} кликнут мышкой')
         except:
-            print(f'элемент {what} не удалось кликнуть мышкой')
+            print(f'Элемент {what} не удалось кликнуть мышкой')
             return False
-        return True
+        return element
 
     def is_text_in_url(self, text):
         # получаем текущий url страницы
@@ -47,6 +49,23 @@ class BasePage:
         else:
             print(f'"{text}" отсутствует в ссылке {url}')
             return False
+
+    def solve_quiz_and_get_code(self):
+        # получение кодов для прохождения тестовых заданий
+        alert = self.browser.switch_to.alert
+        x = alert.text.split(" ")[2]
+        print('Данные для вычислений получены')
+        answer = str(math.log(abs((12 * math.sin(float(x))))))
+        alert.send_keys(answer)
+        alert.accept()
+        print('Ответ отправлен')
+        try:
+            alert = self.browser.switch_to.alert
+            alert_text = alert.text
+            print(f"Your code: {alert_text}")
+            alert.accept()
+        except NoAlertPresentException:
+            print("No second alert presented")
 
 
 if __name__ == '__main__':

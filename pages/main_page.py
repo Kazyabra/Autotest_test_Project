@@ -1,6 +1,5 @@
-import pytest
-from .base_page import BasePage
-from .locators import MainPageLocators
+from pages.base_page import BasePage
+from pages.locators import MainPageLocators
 
 
 class MainPage(BasePage):
@@ -17,4 +16,4 @@ class MainPage(BasePage):
 
 
 if __name__ == '__main__':
-    pytest.main()
+    pass

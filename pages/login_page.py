@@ -1,5 +1,5 @@
-from .base_page import BasePage
-from .locators import LoginPageLocators
+from pages.base_page import BasePage
+from pages.locators import LoginPageLocators
 
 
 class LoginPage(BasePage):
@@ -23,7 +23,7 @@ class LoginPage(BasePage):
 
     def should_be_login_url(self):
         # проверка на корректный url адрес
-        assert self.is_text_in_url('login'), 'login url not correct'
+        assert self.is_text_in_url(LoginPageLocators.LOGIN_URL), 'login url not correct'
 
     def should_be_login_form(self):
         # проверка, что есть форма логина
