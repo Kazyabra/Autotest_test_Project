@@ -63,6 +63,16 @@ class ProductPage(BasePage):
         assert message_add_price, 'element MESSAGE_ADD_PRICE not found'
         return message_add_price
 
+    def should_not_be_success_message(self):
+        # проверяет, что success_message отсутствует на странице
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message есть, а его быть не должно"
+
+    def success_message_is_disappeared(self):
+        # проверяет, что success_message пропало со страницы
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message есть, а должно было пропасть"
+
 
 if __name__ == '__main__':
     pass

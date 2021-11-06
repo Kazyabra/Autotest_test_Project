@@ -1,5 +1,7 @@
 import math
-from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException
+from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException, TimeoutException
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class BasePage:
@@ -66,6 +68,29 @@ class BasePage:
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
+
+    def is_not_element_present(self, how, what, timeout=4):
+        # проверяет, что элемент не появляется на странице в течении 4 сек
+        # если не появился, то True
+        try:
+            WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            print(f'Успех: Ждали появления {timeout} секунды. Элемент не появился.')
+            return True
+        print(f'Неудача: Ждали появления {timeout} секунды. Элемент появился.')
+        return False
+
+    def is_disappeared(self, how, what, timeout=4):
+        # проверяет, что элемент пропадает со страницы в течении 4 сек
+        # если пропадает, то True
+        try:
+            WebDriverWait(self.browser, timeout, 1, TimeoutException).\
+                until_not(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            print(f'Неудача: Ждали, что пропадет {timeout} секунды. Элемент не пропал.')
+            return False
+        print(f'Успех: Ждали, что пропадет {timeout} секунды. Элемент пропал.')
+        return True
 
 
 if __name__ == '__main__':

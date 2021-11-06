@@ -26,3 +26,4 @@ class ProductPageLocators:
     PROMO_URL = '?promo=newYear'
     MESSAGE_ADD_NAME = (By.CSS_SELECTOR, '#messages > div:nth-child(1) >.alertinner strong')
     MESSAGE_ADD_PRICE = (By.CSS_SELECTOR, '#messages > div:nth-child(3) >.alertinner strong')
+    SUCCESS_MESSAGE = (By.CSS_SELECTOR, '#messages>.alert')
