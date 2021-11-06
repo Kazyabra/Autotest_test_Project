@@ -11,7 +11,7 @@ def test_guest_should_see_login_link(browser):
     page = MainPage(browser, MainPageLocators.MAIN_PAGE_LINK)
     # открываем страницу
     page.open()
-    # выполняем метод страницы - переходим на страницу логина
+    # выполняем метод страницы - ищем ссылку на страницу логина
     page.should_be_login_link()
 
 

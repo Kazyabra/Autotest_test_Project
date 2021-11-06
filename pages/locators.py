@@ -3,10 +3,15 @@
 from selenium.webdriver.common.by import By
 
 
+# базовые локаторы
+class BasePageLocators:
+    LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+
+
 # локаторы главной страницы сайта
 class MainPageLocators:
     MAIN_PAGE_LINK = 'http://selenium1py.pythonanywhere.com/'
-    LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
 
 
 # локаторы страницы авторизации

@@ -79,5 +79,23 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.success_message_is_disappeared()
 
 
+def test_guest_should_see_login_link_on_product_page(browser):
+    # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
+    page = ProductPage(browser, ProductPageLocators.PRODUCT_PAGE_LINK)
+    # открываем страницу
+    page.open()
+    # выполняем метод страницы - ищем ссылку на страницу логина
+    page.should_be_login_link()
+
+
+def test_guest_can_go_to_login_page_from_product_page(browser):
+    # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
+    page = ProductPage(browser, ProductPageLocators.PRODUCT_PAGE_LINK)
+    # открываем страницу
+    page.open()
+    # выполняем метод страницы - переходим на страницу логина
+    page.go_to_login_page()
+
+
 if __name__ == '__main__':
     pytest.main()
