@@ -11,6 +11,12 @@ class BasePage:
         self.url = url
         self.browser.implicitly_wait(timeout)
 
+    def go_to_basket_page(self):
+        # пробует кликнуть кнопку с корзиной
+        # символ * указывает на то, что мы передали пару, и этот кортеж нужно распаковать
+        assert self.is_element_click(*BasePageLocators.BASKET_BUTTON), 'failed to follow the basket page'
+        print('Нажата кнопка перехода в корзину')
+
     def go_to_login_page(self):
         # пробует кликнуть ссылку страницы с логином
         # символ * указывает на то, что мы передали пару, и этот кортеж нужно распаковать
@@ -49,9 +55,9 @@ class BasePage:
         try:
             WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
         except TimeoutException:
-            print(f'Успех: Ждали появления {timeout} секунды. Элемент не появился.')
+            print(f'Успех: Ждали появления элемента {what} {timeout} секунды. Элемент не появился.')
             return True
-        print(f'Неудача: Ждали появления {timeout} секунды. Элемент появился.')
+        print(f'Неудача: Ждали появления элемента {what} {timeout} секунды. Элемент появился.')
         return False
 
     def is_disappeared(self, how, what, timeout=4):
@@ -61,9 +67,9 @@ class BasePage:
             WebDriverWait(self.browser, timeout, 1, TimeoutException).\
                 until_not(EC.presence_of_element_located((how, what)))
         except TimeoutException:
-            print(f'Неудача: Ждали, что пропадет {timeout} секунды. Элемент не пропал.')
+            print(f'Неудача: Ждали, что элемент {what} пропадет {timeout} секунды. Элемент не пропал.')
             return False
-        print(f'Успех: Ждали, что пропадет {timeout} секунды. Элемент пропал.')
+        print(f'Успех: Ждали, что элемент {what} пропадет {timeout} секунды. Элемент пропал.')
         return True
 
     def is_text_in_url(self, text):

@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 
 # базовые локаторы
 class BasePageLocators:
+    BASKET_BUTTON = (By.CSS_SELECTOR, '.btn-group>a')
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
     LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
 
@@ -32,3 +33,9 @@ class ProductPageLocators:
     MESSAGE_ADD_NAME = (By.CSS_SELECTOR, '#messages > div:nth-child(1) >.alertinner strong')
     MESSAGE_ADD_PRICE = (By.CSS_SELECTOR, '#messages > div:nth-child(3) >.alertinner strong')
     SUCCESS_MESSAGE = (By.CSS_SELECTOR, '#messages>.alert')
+
+
+# Локаторы страницы корзина
+class BasketPageLocators:
+    BASKET_EMPTY_MESSAGE = (By.CSS_SELECTOR, '#content_inner>p')
+    ORDER_TOTAL_PRICE = (By.CSS_SELECTOR, '#basket_totals h3.price_color')
