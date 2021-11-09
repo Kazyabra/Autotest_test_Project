@@ -3,6 +3,8 @@
 # pytest -s --language=en test_product_page.py
 # pytest -s --language=en -m user_add_to_basket test_product_page.py
 
+# запуск для ревью   pytest -v --tb=line --language=en -m need_review
+
 import pytest
 import time
 from .pages.locators import ProductPageLocators, LoginPageLocators
@@ -16,7 +18,7 @@ promolink = [(lambda i: '?promo=offer' + str(i))(i) for i in range(0, 10)]
 promolink[7] = pytest.param(promolink[7], marks=pytest.mark.xfail)
 
 
-@pytest.mark.skip(reason="Тест пропущен")
+@pytest.mark.need_review(reason='Тест для ревью')
 @pytest.mark.parametrize('promo', promolink)  # параметризация
 def test_guest_can_add_product_to_basket(browser, promo):
     ProductPageLocators.PROMO_URL = promo  # меняем обычный промо на новый
@@ -93,6 +95,7 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.should_be_login_link()
 
 
+@pytest.mark.need_review(reason='Тест для ревью')
 def test_guest_can_go_to_login_page_from_product_page(browser):
     # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
     page = ProductPage(browser, ProductPageLocators.PRODUCT_PAGE_LINK)
@@ -102,6 +105,7 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page.go_to_login_page()
 
 
+@pytest.mark.need_review(reason='Тест для ревью')
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     """
     1. Гость открывает страницу товара
@@ -125,6 +129,7 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page.browser.implicitly_wait(10)
     # [4] проверяем, что есть текст, о том, что корзина пуста
     page.should_be_message_basket_empty()
+
 
 @pytest.mark.user_add_to_basket
 class TestUserAddToBasketFromProductPage:
@@ -162,6 +167,7 @@ class TestUserAddToBasketFromProductPage:
         # проверяет, что нет сообщения о добавлении в корзину
         page.should_not_be_success_message()
 
+    @pytest.mark.need_review(reason='Тест для ревью')
     def test_user_can_add_product_to_basket(self, browser):
         # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
         page = ProductPage(browser, ProductPageLocators.PRODUCT_PAGE_LINK)
