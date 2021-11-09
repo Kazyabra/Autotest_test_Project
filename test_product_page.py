@@ -1,10 +1,14 @@
+# варианты запуска
 # pytest -v --tb=line --language=en test_product_page.py
 # pytest -s --language=en test_product_page.py
+# pytest -s --language=en -m user_add_to_basket test_product_page.py
 
 import pytest
-from .pages.locators import ProductPageLocators
+import time
+from .pages.locators import ProductPageLocators, LoginPageLocators
 from .pages.product_page import ProductPage
 from .pages.basket_page import BasketPage
+from .pages.login_page import LoginPage
 
 # добавляем параметризацию 10 промоссылок
 promolink = [(lambda i: '?promo=offer' + str(i))(i) for i in range(0, 10)]
@@ -121,6 +125,50 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page.browser.implicitly_wait(10)
     # [4] проверяем, что есть текст, о том, что корзина пуста
     page.should_be_message_basket_empty()
+
+@pytest.mark.user_add_to_basket
+class TestUserAddToBasketFromProductPage:
+
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        """
+        предустановка для тестов этого класса
+        запускается перед каждым тестом
+        регистрирует нового пользователя
+        """
+        # открываем страницу регистрации
+        page = LoginPage(browser, LoginPageLocators.LOGIN_PAGE_LINK)
+        page.open()
+        # регистрируем нового пользователя
+        email = f'SP{str(time.time())}@fakemail.org'  # генерируем адрес почты
+        password = '789QwertY123'
+        page.register_new_user(email, password)
+        # проверяем, что пользователь зарегистрирован
+        page.should_be_authorized_user()
+        print(f'Успех: регистрация нового пользователя проведена')
+
+    def test_user_cant_see_success_message(self, browser):
+        """
+        быть авторизованным
+        1. открыть страницу с товаром
+        2. проверить, что нет сообщения об успехе с помощью is_not_element_present
+        """
+        # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
+        page = ProductPage(browser, ProductPageLocators.PRODUCT_PAGE_LINK)
+        # открываем страницу
+        page.open()
+        # ставит ожидание в 1сек
+        page.browser.implicitly_wait(1)
+        # проверяет, что нет сообщения о добавлении в корзину
+        page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
+        page = ProductPage(browser, ProductPageLocators.PRODUCT_PAGE_LINK)
+        # открываем страницу
+        page.open()
+        # выполняем метод страницы - проверяем добавление в корзину
+        page.product_page_add_to_basket()
 
 
 if __name__ == '__main__':

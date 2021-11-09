@@ -4,6 +4,22 @@ from .locators import ProductPageLocators
 
 class ProductPage(BasePage):
 
+    def product_page_add_to_basket(self):
+        # метод проверяет добавление товара в корзину
+        # запоминаем цену и наименование товара
+        name = self.should_be_product_name().text
+        price = self.should_be_product_price().text
+        # добавляем товар в корзину
+        self.btn_add_to_basket_click()
+        # смотрим что добавилось в корзину
+        add_name = self.should_be_message_add_name().text
+        add_price = self.should_be_message_add_price().text
+        # сверяем цену и наименование с тем что упало в корзину
+        assert name == add_name, 'Наименование товара не совпадает'
+        print('Наименование товара совпадает')
+        assert price == add_price, 'Цена товара не совпадает'
+        print('Цена товара совпадает')
+
     def product_promo_page_add_to_basket(self):
         # метод проверяет добавление товара в корзину(с задачкой)
         self.should_be_login_url()

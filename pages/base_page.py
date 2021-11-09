@@ -34,19 +34,30 @@ class BasePage:
             print(f'Элемент {what} найден')
         except NoSuchElementException:
             print(f'Элемент {what} не найден')
-            return False
+            assert False, f'{what} не найден'
         # если элемент найден, то возвращает его
+        return element
+
+    def try_send_keys(self, how, what, message):
+        # проверка элемента на добавление текста
+        element = self.is_element_present(how, what)
+        try:
+            element.send_keys(message)
+            print(f'Элементу {what} добавлен текст {message}')
+        except:
+            print(f'Элементу {what} не удалось добавить текст {message}')
+            assert False, f'Элементу {what} не удалось добавить текст {message}'
         return element
 
     def is_element_click(self, how, what):
         # проверка элемента на клик
+        element = self.is_element_present(how, what)
         try:
-            element = self.is_element_present(how, what)
             element.click()
             print(f'Элемент {what} кликнут мышкой')
         except:
             print(f'Элемент {what} не удалось кликнуть мышкой')
-            return False
+            assert False, f'Элемент {what} не удалось кликнуть мышкой'
         return element
 
     def is_not_element_present(self, how, what, timeout=4):
@@ -91,6 +102,11 @@ class BasePage:
             print(f'\nНе смог открыть ссылку {self.url}')
             return False
         return True
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"
+        print('Пользователь авторизован')
 
     def solve_quiz_and_get_code(self):
         # получение кодов для прохождения тестовых заданий

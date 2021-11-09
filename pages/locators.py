@@ -8,6 +8,7 @@ class BasePageLocators:
     BASKET_BUTTON = (By.CSS_SELECTOR, '.btn-group>a')
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
     LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+    USER_ICON = (By.CSS_SELECTOR, ".icon-user")
 
 
 # локаторы главной страницы сайта
@@ -17,10 +18,14 @@ class MainPageLocators:
 
 # локаторы страницы авторизации
 class LoginPageLocators:
-    LOGIN_PAGE_LINK = 'http://selenium1py.pythonanywhere.com/en-gb/accounts/login/'
+    LOGIN_PAGE_LINK = 'http://selenium1py.pythonanywhere.com/accounts/login/'
     LOGIN_FORM = (By.CSS_SELECTOR, "#login_form")
     REGISTRATION_FORM = (By.CSS_SELECTOR, "#register_form")
     LOGIN_URL = 'login'
+    INPUT_REG_EMAIL = (By.CSS_SELECTOR, "#register_form input[type='email'")
+    INPUT_REG_PASS = (By.CSS_SELECTOR, "#register_form input[name='registration-password1']")
+    INPUT_REG_CONFIRM = (By.CSS_SELECTOR, "#register_form input[name='registration-password2']")
+    REG_BUTTON = (By.CSS_SELECTOR, "#register_form .btn-lg")
 
 
 # локаторы страницы product_page
